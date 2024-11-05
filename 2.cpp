@@ -50,29 +50,48 @@
 
 #include <bits/stdc++.h>
 using namespace std;
-const long long mod = (long long)1e9 + 7;
+const int mod = 1e9 + 7;
 #define int long long
-signed main()
+#define rep(i, a, b) for (int i = a; i < b; i++)
+vector<int> spf;
+const int N = 1e7;
+void sieve()
 {
+  spf.assign(N + 1, 0);
+  rep(i, 0, N + 1) spf[i] = i;
+  for (int i = 2; i * i <= N; i++)
+    if (spf[i] == i)
+      for (int j = i * i; j <= N; j += i)
+        spf[j] = min(spf[j], i);
+  // rep(i,2,N+1) if(spf[i]==i) primes.pb(i);
+}
+
+signed main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    cout.tie(NULL);
+
     int t;
-    cin>>t;
-    int mx=1e7;
-    vector<int> ans(mx+1,0);
-    for(int i=0;i*i<=mx;i++){
-        for(int j=0;j<=57 && j*j*j*j<=mx;j++){
-            int y=i*i+j*j*j;
-            ans[y]++;
+    cin >> t;
+    int mx = 1e7;
+    vector<int> ans(mx + 1, 0);
+    sieve();
+    for (int i = 1; i * i <= mx; i++) {
+        for (int j = 1; j <= 57; j++) {
+            int y = i * i + j * j * j*j;
+            if (y > mx) break;
+            if(spf[y]==y) ans[y]=1;
         }
     }
-    for(int i=1;i<=mx;i++){
-        if(i) ans[i]+=ans[i-1];
+
+    for (int i = 1; i <= mx; i++) {
+        ans[i] += ans[i - 1];
     }
-    while(t--){
+
+    while (t--) {
         int n;
-        cin>>n;
-        cout<<ans[n]<<'\n';
+        cin >> n;
+        cout << ans[n] << '\n';
     }
+
+    return 0;
 }
