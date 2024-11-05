@@ -63,7 +63,7 @@ signed main()
     for(int i=0;i<n;i++){
         cin>>v[i];
     }
-    int l=0,r=1e18;
+    int l=1,r=1e18;
     int ans=*max_element(v.begin(),v.end());
     while(l<=r){
         int mid=(l-(l-r)/2);
